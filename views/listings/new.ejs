@@ -1,0 +1,62 @@
+<% layout("/layouts/boilerplate") -%> 
+<body>
+    <!-- we can send all fields of form using an object say lisitng[title],listin[price]... -->
+    <h2 class="offset-4">Create A New Listing</h2>
+
+    <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data" >
+
+        <div class="row">
+            <div class="col-8 offset-2">
+
+    <div class="mb-2">
+        <label for="title" class="form-label"><b>Title </b></label>
+        <input type="text" name="listing[title]" placeholder="Give a Catchy title" class="form-control" required>
+        <div class="valid-feedback">Great Title!</div>
+        <div class="invalid-feedback">Please give a Classy Title!</div>
+    </div>
+    
+
+       <div class="mb-2">
+        <label for="description" class="form-label"><b>Description</b></label>
+        <textarea name="listing[description]" placeholder="Share small Overview " class="form-control" required></textarea> 
+       <div class="invalid-feedback">Please enter a short Description</div>
+       
+     </div>
+
+    <div class="mb-2">
+        <label for="image" class="form-label"><b>Image</b></label>
+        <input type="file" name="listingImage" class="form-control" accept="image/*"> 
+    </div>
+    
+
+    <div class="row">
+    <div class="mb-1 col-md-4">
+        <label for="price" class="form-label"><b>Price</b></label>
+        <input type="text" name="listing[price]" placeholder=" &#8377"  class="form-control" required>
+    <div class="invalid-feedback">Please enter valid price</div>
+    
+
+    </div>
+
+    <div class="mb-2 col-md-8">
+        <label for="country" class="form-label"><b>Country</b></label>
+        <input type="text" name="listing[country]" placeholder="India"  class="form-control" required>
+      <div class="invalid-feedback">Country name should be valid</div>
+   
+    </div>
+
+
+  </div>
+    <div class="mb-2">
+        <label for="location" class="form-label"><b>Location</b></label>
+        <input type="text" name="listing[location]" placeholder="Hyderabad"  class="form-control" required>
+    <div class="invalid-feedback">Location should be valid</div>
+    
+    </div>
+
+        <button class="btn btn-danger">Add</button>
+      </div>
+    </div>
+    </form>
+    
+</body>

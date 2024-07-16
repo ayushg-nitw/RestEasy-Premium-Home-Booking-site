@@ -1,0 +1,198 @@
+<% layout("/layouts/boilerplate") -%> 
+
+<div id="bookingerror" class="col-4 offset-3 mt-3" style="display:none">Listing is not available for selected dates!</div>
+
+<div class="booking-form-container col-4 mt-4">
+
+    <h2 class="offset-3">Book Your Stay</h2>
+    <hr>
+
+    <form id="booking-form" class="needs-validation" novalidate>
+     
+        <div class="in-out">
+
+            <div class="form-group form-control">
+                <label for="checkin">Check-in</label> 
+                <input type="date" id="checkin" name="checkin" class="form-control" required>
+            </div>
+
+            <div class="form-group form-control">
+                <label for="checkout">Check-out</label>
+                <input type="date" id="checkout" name="checkout" class="form-control" required>
+            </div>
+        </div>
+
+        <div class="form-group form-control">
+            <label for="adults">Guests (Above 8 years age)</label>
+            <select id="adults" name="adults" class="form-control border border-dark" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+        </div>
+
+        <button id="checkAvail" type="submit" class="btn btn-light book-btn offset-4">Check Availability</button>
+</form>
+
+<div id="overlay2">
+
+    <div id="price-info" >
+        <span id="closePopup2">&times;</span>
+        <p>Listing total: &#x20B9;<span id="price-per-night"></span> &times; <span id="total-nights"></span> </p>
+        <p>WanderLust Service Fees (2%): &#x20B9;<span id="service-fees"></span></p>
+        <p>GST (18%): &#x20B9;<span id="gst"></span></p>
+        <p>Total Price: &#x20B9;<span id="total-price"></span></p>
+        <button id="reserve-btn" class="btn btn-light offset-4">Reserve</button>
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+    
+$(document).ready(function() {
+  $('#booking-form').on('submit', function(event) {
+      event.preventDefault();
+
+      let checkin = $('#checkin').val();
+      let checkout = $('#checkout').val();
+      let adults = $('#adults').val();
+  
+      $.ajax({
+          url: '/listings/<%=listing._id%>/booking/availability', // Replace with your server endpoint
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify({
+              checkin: checkin,
+              checkout: checkout,
+              adults: adults
+          }),
+          success: function(response) {
+
+              if (response.available) {
+                  const checkinDate = new Date(checkin);
+                  const checkoutDate = new Date(checkout);
+                  const nights = (checkoutDate - checkinDate) / (1000 * 60 * 60 * 24);
+                  const pricePerNight = response.pricePerNight;
+                  const subtotal = (pricePerNight * nights);
+                  const serviceFees = subtotal * 0.02;
+                  const gst = (subtotal + serviceFees) * 0.18;
+                  const totalPrice = subtotal + serviceFees + gst;
+
+                  $('#price-per-night').text(pricePerNight);
+                  $('#total-nights').text(nights+'nights');
+                  $('#service-fees').text(serviceFees.toFixed(2));
+                  $('#gst').text(gst.toFixed(2));
+                  $('#total-price').text(totalPrice.toFixed(2));
+
+                  $('#price-info').show();
+                  $('#overlay2').show();
+              } else {
+
+                $('#bookingerror').show();
+                setTimeout(function() {
+                        $('#bookingerror').hide();
+                    }, 3000); 
+
+                console.log("Dates not available");
+              }
+          },
+          error: function(error) {
+              console.log('Error:', error);
+          }
+      });
+  });
+});
+
+
+//for reserve;
+
+$('#reserve-btn').on('click', function(event) {
+event.preventDefault();
+
+$.ajax({
+  url: '/listings/<%=listing._id%>/booking/reserve',
+  type: 'POST',
+  contentType: 'application/json',
+  data: JSON.stringify({
+      checkin: $('#checkin').val(),
+      checkout: $('#checkout').val(),
+      adults: $('#adults').val(),
+      totalPrice: parseFloat($('#total-price').text()) 
+  }),
+  success: function(response) {
+
+       let sessionId= response.paymentSessionId;
+       let order_id= response.order_id;
+
+      const cashfree = Cashfree({
+        mode: "sandbox" //or production,
+      });
+
+        cashfree.checkout({
+          paymentSessionId: sessionId,
+          redirectTarget:"_modal"
+        }).then((res)=>{
+                    $.ajax({
+                         url: '/listings/<%=listing._id%>/booking/verifyPayment',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            order_id:order_id,
+                            listing_id: '<%=listing._id%>',
+                            checkin: $('#checkin').val(),
+                            checkout: $('#checkout').val(),
+                            adults: $('#adults').val(),
+                            totalPrice: parseFloat($('#total-price').text()) 
+                        }),
+                    success: function(response) {
+
+                        if(response.available && response.payment_status === "SUCCESS")  {
+                          
+                            window.location.href =`/payment/callback?order_id=${order_id}&order_status=PAID`;  // Redirect to success page
+                        } else {
+                            window.location.href = `/payment/callback?order_id=${order_id}&order_status=FAILED`;  // Redirect to failure page
+                        }
+                    },
+                   error: function(error){
+                    console.log("not booked!");
+                   }  
+                });
+        })
+        .catch((e)=>{
+            console.log('Booking Not saved!');
+        });
+
+        // console.log("To save route will be here now");
+  },
+  error: function(error) {
+      console.error('Error saving booking:', error);
+  }
+});
+});
+
+$('#closePopup2').on('click', function() {
+        $('#price-info').hide();
+        $('#overlay2').hide();
+ });
+
+   //date picker js
+  $(document).ready(function() {
+
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById("checkin").setAttribute('min', today);
+            document.getElementById("checkout").setAttribute('min', today);
+
+            // Automatically set the minimum checkout date when the check-in date is selected
+            $('#checkin').on('change', function() {
+                var checkinDate = $(this).val();
+                $('#checkout').attr('min', checkinDate);
+            });
+        });
+
+</script>

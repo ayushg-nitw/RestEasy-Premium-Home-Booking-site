@@ -1,0 +1,32 @@
+<% if(success && success.length > 0) { %>
+    <div id="successmsg" class="successmsg alert alert-success alert-dismissible fade show col-4 mt-2" role="alert">
+        <%= success %>
+        <button type="button" class="btn-close closebtn" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<% if(error && error.length > 0) { %>
+    <div id="errormsg" class="errormsg alert alert-danger alert-dismissible fade show col-4 mt-2" role="alert">
+        <%= error %>
+        <button type="button" class="btn-close closebtn" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var successMessage = document.getElementById('successmsg');
+        var errorMessage = document.getElementById('errormsg');
+
+        if (successMessage) {
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 3000);
+        }
+
+        if (errorMessage) {
+            setTimeout(function() {
+                errorMessage.style.display = 'none';
+            }, 3000);
+        }
+    });
+</script>

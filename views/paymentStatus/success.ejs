@@ -1,0 +1,67 @@
+<% layout("/layouts/boilerplate") -%>
+
+    <style>
+        .receipt-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin-left:30%;
+            margin-top:5%;
+        }
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .receipt-header h1 {
+            margin: 0;
+            color: #28a745;
+        }
+        .receipt-details {
+            margin-bottom: 20px;
+        }
+        .receipt-details h3 {
+            margin: 0 0 10px 0;
+        }
+        .receipt-details p {
+            margin: 5px 0;
+        }
+        .receipt-footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="receipt-container">
+        <div class="receipt-header">
+            <h1>Payment Successful!</h1>
+        </div>
+        <div class="receipt-details">
+            <h3>Order Details</h3>
+            <p><strong>Order ID:</strong> <%= getOrderInfo.data.order_id %></p>
+            <p><strong>Order Amount:</strong> INR <%= getOrderInfo.data.order_amount %></p>
+            <p><strong>Order Status:</strong> <%= getOrderInfo.data.order_status %></p>
+            <p><strong>Payment Time:</strong> <%= new Date(getOrderInfo.data.created_at).toLocaleString() %></p>
+        </div>
+        <div class="receipt-details">
+            <h3>Customer Details</h3>
+            <p><strong>Name:</strong> <%= getOrderInfo.data.customer_details.customer_name || 'N/A' %></p>
+            <p><strong>Email:</strong> <%= getOrderInfo.data.customer_details.customer_email %></p>
+            <p><strong>Phone:</strong> <%= getOrderInfo.data.customer_details.customer_phone %></p>
+        </div>
+        <div class="receipt-footer">
+              <b>Thank you for your payment!</b><br>
+              <p>You will get Listing location via mail</p>
+        </div>
+        <button class="btn btn-primary offset-5 mt-3" onclick="goToHome()">Go to Home</button>
+    </div>
+    
+    <script>
+        function goToHome() {
+            window.location.href = "/listings";
+        }
+    </script>

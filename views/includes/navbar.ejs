@@ -1,0 +1,48 @@
+
+
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top"> 
+                                            <!--stick at top bottom has border and body color is light-->
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass spin-logo"></i></a>   
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="/listings">Explore</a>
+          <a class="nav-link" href="/listings/new">New Listing 
+            <i style="color:rgb(44, 43, 43,0.6); font-size:20px; position: relative; top:2px;" class="fa-solid fa-circle-plus"></i>
+          </a>
+        </div>
+
+             <div class="navbar-nav ms-auto search-bar">
+
+              <form class="d-flex">
+    
+                <input class="form-control me-2" type="search" placeholder="Search destinations" aria-label="Search">
+
+                <button class="search-btn" type="submit"> 
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  Search
+                </button>
+
+              </form>
+
+            </div>
+
+        <div class="navbar-nav ms-auto">
+          <% if(!curr) { %>
+            <a class="nav-link" href="/login"><b>Login</b></a>
+            <a class="nav-link" href="/signup"><b>SignUp</b></a>
+          <% }%>
+           <% if(curr) { %>
+            <a class="nav-link" href="/logout"><b>Logout </b><i class="fa-solid fa-right-from-bracket"></i></a>
+          <% }%>
+      
+        </div>
+
+      </div>
+    </div>
+  </nav>
