@@ -217,6 +217,7 @@ app.get('/search', async (req, res) => {
           $or: [
               { location: { $regex: query, $options: 'i' } },
               { country: { $regex: query, $options: 'i' } },
+              { name: { $regex: query, $options: 'i' } },
           ]
       });
       res.render('./listings/searchResult.ejs', { searchResults });
