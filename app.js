@@ -23,6 +23,7 @@ const LocalStrategy=require("passport-local");
 const User= require("./models/user.js")
 const bodyParser= require('body-parser');
 const Booking= require("./models/booking.js");
+const Listing= require("./models/listing.js");
 
 const axios= require("axios");
 const crypto= require("crypto");
@@ -41,6 +42,7 @@ main().then((res)=>{
 async function main(){
     await mongoose.connect(dbUrl);
 }
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -204,6 +206,25 @@ try{
   res.render('paymentStatus/failure', { getOrderInfo });
 });
 
+//-----------------------------------------------------------------------------------------
+//searching route
+
+app.get('/search', async (req, res) => {
+ 
+  try {
+      const { query } = req.query; // Get the search query from URL parameters
+      const searchResults = await Listing.find({
+          $or: [
+              { location: { $regex: query, $options: 'i' } },
+              { country: { $regex: query, $options: 'i' } },
+          ]
+      });
+      res.render('./listings/searchResult.ejs', { searchResults });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send("An error occurred while searching for listings.");
+   }
+});
 
 // -------------------------------------------------------------------------------------
 

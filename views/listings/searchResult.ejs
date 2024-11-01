@@ -1,0 +1,120 @@
+<% layout("/layouts/boilerplate") -%> 
+
+<div id="bookingsuccess" class="col-6 offset-3 mt-3" style="display:none">Listing successfully Booked! Location will be shared through Mail</div>
+
+<body>
+
+   <div class="filters">
+      
+      <div class="filter">
+         <div><i class="fa-solid fa-fire"></i></div>
+         <p>Trending</p>
+      </div>
+
+      <div class="filter">
+         <div><i class="fa-solid fa-warehouse"></i></div>
+         <p>Farms</p>
+      </div>
+
+      <div class="filter">
+         <div><i class="fa-solid fa-person-swimming"></i></div>
+         <p>Amazing pools</p>
+      </div>
+      <div class="filter">
+         <div><i class="fa-solid fa-ship"></i></div>
+         <p>Boats</p>
+      </div>
+      <div class="filter">
+         <div><i class="fa-solid fa-city"></i></div>
+         <p>Mansions</p>
+      </div>
+      <div class="filter">
+         <div><i class="fa-solid fa-mountain-city"></i></div>
+         <p>Mountains</p>
+      </div>
+      <div class="filter">
+         <div><i class="fa-solid fa-umbrella-beach"></i></div>
+         <p>Beachfront</p>
+      </div>
+      <div class="filter">
+         <div><i class="fa-solid fa-chess-rook"></i></div>
+         <p>Castles</p>
+      </div>
+      <div class="filter">
+         <div><i class="fa-solid fa-snowflake"></i></div>
+         <p>Arctic</p>
+      </div>
+
+      <!-- diplay total after taxes -->
+       <div class="tax-toggle">
+        <div class="form-check-reverse form-switch">
+         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+         <label class="form-check-label" for="flexSwitchCheckDefault">Total after taxes</label>
+       </div>
+      </div>
+
+   </div>
+    
+<div class="row row-cols-lg-4 row-cols-md-3 row-cols-sm-2">  <!--inbuit with bootstrap-->
+
+    <%for(let listing of searchResults){ %>
+
+   <a href="/listings/<%=listing._id %>" class="listing_link">
+
+       <div class="card cols listing-card">
+         <img class="card-img-top" src="<%= listing.image.url %>" alt="listing_image">
+          <div class="card-body">
+
+           <p class="card-text"> <b><%=listing.title%></b> <br>
+             &#8377 <%= listing.price.toLocaleString("en-IN") %> /night
+             <i class="tax-rate">&nbsp; &nbsp; <b>+18% GST</b> </i>
+            </p>
+
+         </div>
+        </div>
+   </a>
+      <% } %>
+
+</div>
+</body>
+
+<script>
+
+  let taxSwitch= document.getElementById("flexSwitchCheckDefault");
+  taxSwitch.addEventListener("click",()=>{
+
+     let taxRate=document.getElementsByClassName("tax-rate");
+     for(info of taxRate){
+         if(info.style.display!="inline"){
+            info.style.display="inline";
+         }
+         else info.style.display="none";
+     }
+  });
+
+  //bookingsuccess
+
+  $(document).ready(function() {
+
+            // Function to get query parameter value by name
+            function getQueryParam(name) {
+                var urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+
+            // Check for booking success query parameter
+            var bookingSuccess = getQueryParam('bookingSuccess');
+            if (bookingSuccess === 'true') {
+            
+                $('#bookingsuccess').show();
+                setTimeout(function() {
+                    $('#bookingsuccess').hide();
+                }, 4000);
+            }
+
+        });
+
+</script>
+
+
+
