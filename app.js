@@ -215,9 +215,10 @@ app.get('/search', async (req, res) => {
       const { query } = req.query; // Get the search query from URL parameters
       const searchResults = await Listing.find({
           $or: [
+               { title: { $regex: query, $options: 'i' } },
               { location: { $regex: query, $options: 'i' } },
               { country: { $regex: query, $options: 'i' } },
-              { name: { $regex: query, $options: 'i' } },
+              
           ]
       });
       res.render('./listings/searchResult.ejs', { searchResults });
