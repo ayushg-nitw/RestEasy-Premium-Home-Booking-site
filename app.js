@@ -14,6 +14,7 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const bookingRouter= require("./routes/booking.js");
+const profileRouter= require("./routes/profile.js");
 
 const session= require("express-session");
 const MongoStore = require('connect-mongo');
@@ -108,6 +109,7 @@ app.use("/listings", listingRouter); //all listing routes are is searched from l
 app.use("/listings/:id/reviews",reviewRouter); 
 app.use("/", userRouter);
 app.use("/listings/:id",bookingRouter);
+app.use("/profile",profileRouter);
 
 // -------------------------------------------------------------------------------------
 

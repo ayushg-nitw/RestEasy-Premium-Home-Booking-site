@@ -471,3 +471,170 @@ border-radius: 0.6rem;
     text-align: center;
     border-radius: 10px;
  }
+
+
+ /* profile logout dropdown  */
+
+ .profile-icon {
+    border: 3px solid #343a40 !important;/* Dark border color */
+    border-radius: 50% !important;/* Make it circular */
+    padding: 20px !important; /* Space around the icon */
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 30px !important;
+    height: 30px !important; /* Adjust as needed */
+    margin-right: 10px;
+  }
+
+  /* profile page css */
+  .profile-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 2rem;
+}
+
+.profile-header {
+    background-color:#243642;
+    width:180vh;
+    height: 50%;
+    padding: 2rem;
+    color: white;
+    border-radius: 5px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.profile-photo img  {
+    border-radius: 2%;
+    height: 150px;
+    width: 150px;
+    margin-right: 2rem;
+    margin-left:10rem;
+    border: 3px solid white;
+}
+
+.username {
+    font-size: 1.5rem;
+}
+
+.profile-content {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 400px 1fr;
+    gap: 1rem;
+}
+
+.profile-nav {
+    background-color: #387478;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+    margin-left:-32px;
+    border: 5px solid white;
+    border-radius: 10%;
+}
+.profile-nav div{
+    height: 3rem;
+}
+.profile-nav a {
+    background: none;
+    color: white;
+    border: none;
+    font-size:19px;
+    text-align: left;
+    padding: 1rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.profile-nav div:hover {
+    background-color: #8e9091;
+    border-radius: 2%;
+    width:100%;
+   
+}
+.profile-nav a:hover{
+    color:black;
+    font-size:20px;
+}
+
+.content-display {
+    background-color:#E2F1E7;
+    color:rgb(0, 0, 0);
+    padding: 1rem;
+    border-radius:1%;
+    border:5px solid white;
+}
+/* for highlighting tab  */
+
+.profile-nav div.active {
+    font-weight: bold;
+    border-left: 5px solid #000000; /* A border to indicate selection */
+    padding-left: 8px; /* Adjust for alignment */
+}
+
+
+/* your acount details css */
+.content-display h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eaeaea;
+    padding-bottom: 8px;
+}
+
+/* Details styling */
+.content-display p {
+    font-size: 15px;
+    margin: 10px 0;
+    color: #555;
+}
+
+/* Strong labels for fields */
+.content-display p strong {
+    color: #2c3e50;
+    font-weight: 500;
+    display: inline-block;
+    width: 120px; /* Align all field labels to the same width */
+}
+
+/* Links styling */
+.content-display a {
+    color: #0073e6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.content-display a:hover {
+    color: #005bb5;
+    text-decoration: underline;
+}
+
+/* Divider line for section separation */
+.content-display .section-divider {
+    border-top: 1px solid #eaeaea;
+    margin: 15px 0;
+}
+
+/* Button styling for Edit or Add */
+.content-display .edit-button {
+    padding: 5px 10px;
+    background-color: #0073e6;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+.content-display .edit-button:hover {
+    background-color: #005bb5;
+}
