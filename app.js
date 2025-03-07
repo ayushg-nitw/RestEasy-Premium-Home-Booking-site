@@ -232,6 +232,11 @@ app.get('/search', async (req, res) => {
 
 // -------------------------------------------------------------------------------------
 
+app.get('/', async (req,res)=>{
+  const allListings= await Listing.find({});
+  res.render("listings/index.ejs",{allListings});
+});
+
 //When accessing all routes that not exists
 app.all("*",(req,res,next)=>{
   next(new ExpressError(404,"Page Not Found!"));
